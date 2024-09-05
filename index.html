@@ -2,14 +2,36 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traductor de Números a Letras</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="card-title text-center">Traductor de Números a Letras</h1>
+                <div class="mb-3">
+                    <label for="numero" class="form-label">Ingresa un número:</label>
+                    <input type="text" id="numero" class="form-control" placeholder="Escribe un número...">
+                </div>
+                <button class="btn btn-primary w-100" onclick="traducir()">Traducir a letras</button>
+                <div id="resultado" class="mt-4 alert alert-info" role="alert" style="display: none;"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Enlace a Bootstrap JS y Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--
     <h1>Traductor de Números a Letras</h1>
     <input type="number" id="numero" placeholder="Ingresa un número" />
     <button onclick="traducir()">Traducir</button>
     <p id="resultado"></p>
+    -->
 
     <script>
         const numerosALetras = (num) => {
@@ -74,9 +96,18 @@
         };
 
         function traducir() {
-            const numero = document.getElementById('numero').value;
-            const resultado = numerosALetras(parseInt(numero));
-            document.getElementById('resultado').innerText = resultado || 'Por favor, ingresa un número válido';
+            const numeroInput = document.getElementById('numero').value.trim();
+            const numero = parseInt(numeroInput, 10);
+
+            // Verificar si el número es válido
+            if (isNaN(numero)) {
+                document.getElementById('resultado').innerText = 'Por favor, ingresa un número válido';
+                document.getElementById('resultado').style.display = 'block';
+            } else {
+                const resultado = numerosALetras(numero);
+                document.getElementById('resultado').innerText = resultado;
+                document.getElementById('resultado').style.display = 'block';
+            }
         }
     </script>
 </body>
