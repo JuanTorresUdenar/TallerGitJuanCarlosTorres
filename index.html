@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor de Números a Letras</title>
+</head>
+<body>
+    <h1>Traductor de Números a Letras</h1>
+    <input type="number" id="numero" placeholder="Ingresa un número" />
+    <button onclick="traducir()">Traducir</button>
+    <p id="resultado"></p>
+
+    <script>
+        const numerosALetras = (num) => {
+            const unidades = ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
+            const decenas = ['', '', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+            const especiales = { 10: 'diez', 11: 'once', 12: 'doce', 13: 'trece', 14: 'catorce', 15: 'quince' };
+            const centenas = ['cien', 'ciento', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
+
+            // Función auxiliar para traducir números del 0 al 99
+            const traducirMenorQueCien = (n) => {
+                if (n in especiales) {
+                    return especiales[n];
+                }
+                if (n < 10) {
+                    return unidades[n];
+                }
+                let decena = Math.floor(n / 10);
+                let unidad = n % 10;
+
+                if (decena === 1 && unidad !== 0) {
+                    return `dieci${unidades[unidad]}`;
+                }
+                if (decena === 2 && unidad !== 0) {
+                    return `veinti${unidades[unidad]}`;
+                }
+                return `${decenas[decena]}${unidad ? ' y ' + unidades[unidad] : ''}`;
+            };
+
+            // Función para traducir centenas
+            const traducirCentenas = (n) => {
+                if (n === 100) return 'cien';
+                let centena = Math.floor(n / 100);
+                let resto = n % 100;
+
+                if (centena === 1 && resto === 0) return 'cien';
+                return `${centenas[centena]}${resto ? ' ' + traducirMenorQueCien(resto) : ''}`;
+            };
+
+            // Función para traducir miles
+            const traducirMiles = (n) => {
+                let miles = Math.floor(n / 1000);
+                let resto = n % 1000;
+                let resultadoMiles = miles === 1 ? 'mil' : `${traducirMenorQueMil(miles)} mil`;
+
+                return `${resultadoMiles}${resto ? ' ' + traducirMenorQueMil(resto) : ''}`;
+            };
+
+            // Función para traducir menores que mil
+            const traducirMenorQueMil = (n) => {
+                if (n < 100) return traducirMenorQueCien(n);
+                return traducirCentenas(n);
+            };
+
+            // Traducir número completo
+            if (num < 1000) {
+                return traducirMenorQueMil(num);
+            } else if (num < 1000000) {
+                return traducirMiles(num);
+            } else {
+                return 'Número demasiado grande para traducir';
+            }
+        };
+
+        function traducir() {
+            const numero = document.getElementById('numero').value;
+            const resultado = numerosALetras(parseInt(numero));
+            document.getElementById('resultado').innerText = resultado || 'Por favor, ingresa un número válido';
+        }
+    </script>
+</body>
+</html>
