@@ -31,6 +31,7 @@
                     <input type="text" id="numero" class="form-control" placeholder="Escribe un número...">
                 </div>
                 <button class="btn btn-primary w-100" onclick="traducir()">Traducir a letras</button>
+                <button class="btn btn-secondary w-100 mb-2" onclick="traducirIngles()">Traducir a letras en inglés</button>
                 <div id="resultado" class="mt-4 alert alert-info" role="alert" style="display: none;"></div>
 
             </div>
@@ -108,6 +109,69 @@
                 return 'Número demasiado grande para traducir';
             }
         };
+
+        // Función para traducir a inglés
+        const numerosALetrasIngles = (num) => {
+            const unidades = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+            const decenas = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+            const especiales = { 10: 'ten', 11: 'eleven', 12: 'twelve', 13: 'thirteen', 14: 'fourteen', 15: 'fifteen', 16: 'sixteen', 17: 'seventeen', 18: 'eighteen', 19: 'nineteen' };
+            const centenas = ['one hundred', 'two hundred', 'three hundred', 'four hundred', 'five hundred', 'six hundred', 'seven hundred', 'eight hundred', 'nine hundred'];       
+            
+            // Traduce números menores que 100
+            const traducirMenorQueCienIngles = (n) => {
+                if (n in especiales) {
+                    return especiales[n];
+                }
+                if (n < 10) {
+                    return unidades[n];
+                }
+                let decena = Math.floor(n / 10);
+                let unidad = n % 10;
+                return `${decenas[decena]}${unidad ? '-' + unidades[unidad] : ''}`;
+            };
+
+            // Traduce números menores que 1000
+            const traducirMenorQueMilIngles = (n) => {
+                if (n < 100) {
+                    return traducirMenorQueCienIngles(n);
+                }
+                let centena = Math.floor(n / 100);
+                let resto = n % 100;
+                return `${centenas[centena - 1]}${resto ? ' ' + traducirMenorQueCienIngles(resto) : ''}`;
+            };
+
+            // Traduce miles
+            const traducirMilesIngles = (n) => {
+                let miles = Math.floor(n / 1000);
+                let resto = n % 1000;
+                let resultadoMiles = miles === 1 ? 'one thousand' : `${traducirMenorQueMilIngles(miles)} thousand`;
+                return `${resultadoMiles}${resto ? ' ' + traducirMenorQueMilIngles(resto) : ''}`;
+            };
+
+            // Lógica para números mayores de mil
+            if (num < 1000) {
+                return traducirMenorQueMilIngles(num);
+            } else if (num < 1000000) {
+                return traducirMilesIngles(num);
+            } else {
+                return 'Number too large to translate';
+            }
+
+        };
+        
+        function traducirIngles() {
+            const numeroInput = document.getElementById('numero').value.trim();
+            const numero = parseInt(numeroInput, 10);
+
+            if (isNaN(numero)) {
+                document.getElementById('resultado').innerText = 'Please enter a valid number';
+                document.getElementById('resultado').style.display = 'block';
+            } else {
+                const resultado = numerosALetrasIngles(numero);
+                document.getElementById('resultado').innerText = resultado;
+                document.getElementById('resultado').style.display = 'block';
+            }
+        }
 
         function traducir() {
             const numeroInput = document.getElementById('numero').value.trim();
