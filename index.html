@@ -18,7 +18,31 @@
 
         #numero::placeholder {
             color: #a9a9a9; /* Cambia el color del texto placeholder (texto por defecto) */
-        }        
+        }
+        
+        .btn-custom-secondary {
+            background-color: #84cfc2; /* Color de fondo */
+            border-color: #000102; /* Color del borde */
+            color: white; /* Color del texto */
+        }
+
+        .btn-custom-secondary:hover {
+            background-color: #40c4ae; /* Color de fondo al pasar el ratón */
+            border-color: #000000; /* Color del borde al pasar el ratón */
+        }
+
+        .btn-custom-primary {
+
+            background-color: #007bff; /* Color de fondo */
+            border-color: #000000; /* Color del borde */
+            color: white; /* Color del texto */
+        }
+
+        .btn-custom-primary:hover {
+            background-color: #0056b3; /* Color de fondo al pasar el ratón */
+            border-color: #004085; /* Color del borde al pasar el ratón */
+        }
+
     </style>    
 </head>
 <body>
@@ -30,8 +54,8 @@
                     <label for="numero" class="form-label">Ingresa un número:</label>
                     <input type="text" id="numero" class="form-control" placeholder="Escribe un número...">
                 </div>
-                <button class="btn btn-primary w-100" onclick="traducir()">Traducir a letras</button>
-                <button class="btn btn-secondary w-100 mb-2" onclick="traducirIngles()">Traducir a letras en inglés</button>
+                <button class="btn btn-custom-primary w-100" onclick="traducir()">Traducir a letras</button>
+                <button class="btn btn-custom-secondary w-100 mb-2" onclick="traducirIngles()">Traducir a letras en inglés</button>
                 <div id="resultado" class="mt-4 alert alert-info" role="alert" style="display: none;"></div>
 
             </div>
